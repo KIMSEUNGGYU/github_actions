@@ -41,11 +41,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            echo test
             cd ~/github_actions
             git pull origin master
-            ifconfig
-            npm -v
-            node -v
+            ~/.nvm/versions/node/v12.17.0/bin/npm -v
+            ~/.nvm/versions/node/v12.17.0/bin/node -v
 #            npm install --production
 #            pm2 restart node-app
