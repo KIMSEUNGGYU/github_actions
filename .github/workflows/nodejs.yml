@@ -42,8 +42,9 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ~/github_actions
-            git pull origin master
-            env
+            echo $SHELL
+#            git pull origin master
+
 #            /home/ubuntu/.nvm/versions/node/v12.17.0/bin/npm -v
 #            /home/ubuntu/.nvm/versions/node/v12.17.0/bin/node -v
 #            /home/ubuntu/.nvm/versions/node/v12.17.0/bin/npm install --production
