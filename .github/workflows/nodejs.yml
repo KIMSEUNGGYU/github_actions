@@ -41,12 +41,13 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd ~/
-            pwd
-            cd ~/github_actions
             export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
             source ~/.bashrc
-            npm -v
+            cd ~/github_actions
+            git pull origin master
+            npm install --production
+            pm2 restart node-app
+  
             
 #            git pull origin master
 
