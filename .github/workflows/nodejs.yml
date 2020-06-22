@@ -44,7 +44,8 @@ jobs:
             echo test
             cd ~/github_actions
             git pull origin master
+            ifconfig
             npm -v
             node -v
-            npm install --production
-            pm2 restart node-app
+#            npm install --production
+#            pm2 restart node-app
