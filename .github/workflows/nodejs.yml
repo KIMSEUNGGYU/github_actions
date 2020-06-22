@@ -42,9 +42,9 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             echo test
-            pwd
             cd ~/github_actions
-            pwd
             git pull origin master
+            npm -v
+            node -v
             npm install --production
             pm2 restart node-app
