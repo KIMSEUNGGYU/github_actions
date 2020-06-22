@@ -41,7 +41,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           scripts: |
-            cd /github_actions
+            cd ~/github_actions
             git pull origin master
             npm install --production
             pm2 restart node-app
