@@ -43,7 +43,8 @@ jobs:
           script: |
             cd ~/github_actions
             git pull origin master
-            /home/ubuntu/.nvm/versions/node/v12.17.0/bin/npm -v
-            /home/ubuntu/.nvm/versions/node/v12.17.0/bin/node -v
-            /home/ubuntu/.nvm/versions/node/v12.17.0/bin/npm install --production
+            env
+#            /home/ubuntu/.nvm/versions/node/v12.17.0/bin/npm -v
+#            /home/ubuntu/.nvm/versions/node/v12.17.0/bin/node -v
+#            /home/ubuntu/.nvm/versions/node/v12.17.0/bin/npm install --production
 #            pm2 restart node-app
