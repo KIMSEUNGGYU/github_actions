@@ -41,6 +41,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
+            echo test
             cd ~/github_actions
             git pull origin master
             npm install --production
