@@ -45,5 +45,5 @@ jobs:
             git pull origin master
             ~/.nvm/versions/node/v12.17.0/bin/npm -v
             ~/.nvm/versions/node/v12.17.0/bin/node -v
-#            npm install --production
+            ~/.nvm/versions/node/v12.17.0/bin/npm install --production
 #            pm2 restart node-app
