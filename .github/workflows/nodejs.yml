@@ -43,7 +43,8 @@ jobs:
           script: |
             cd ~/github_actions
             echo $SHELL
-            npm -v
+            which npm
+            which node
 #            git pull origin master
 
 #            /home/ubuntu/.nvm/versions/node/v12.17.0/bin/npm -v
