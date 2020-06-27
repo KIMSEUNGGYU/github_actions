@@ -5,7 +5,7 @@ name: Node Github CI/CD
 
 on:
   push:
-    branches: 
+    branches:
       - master
 
 jobs:
@@ -26,12 +26,12 @@ jobs:
           npm install
           npm test
         env:
-          CI: true 
-     
+          CI: true
+
   deploy:
     needs: [test]
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: SSH and deploy node app
         uses: appleboy/ssh-action@master
