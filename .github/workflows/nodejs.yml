@@ -16,8 +16,6 @@ jobs:
         node-version: [10.x, 12.x]
 
     steps:
-      - name: git check
-        run: git branch
       - uses: actions/checkout@v2
       - name: git check2
         run: git branch
