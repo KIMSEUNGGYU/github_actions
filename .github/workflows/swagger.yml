@@ -27,9 +27,9 @@ jobs:
       - name: npm install and test
         run: |
           npm install
-          node index.js
-        env:
-          CI: true
+          # node index.js
+        # env:
+        #   CI: true
   deploy:
     needs: [test]
     runs-on: ubuntu-latest
