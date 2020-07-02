@@ -26,7 +26,7 @@ definitions:
         example: "success"
       message:
         type: string
-        example: "swagger test 1"
+        example: "swagger test 2"
       result:
         type: object
         additionalProperties: {}
