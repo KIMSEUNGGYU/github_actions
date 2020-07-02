@@ -24,10 +24,9 @@ jobs:
       - name: Check github branch
         run: |
           git branch
-      - name: npm install and test
+      - name: npm install
         run: |
           npm install
-          # node index.js
         env:
           CI: true
   deploy:
@@ -44,14 +43,12 @@ jobs:
           script: |
             export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
             source ~/.bashrc
-            # pwd
             cd ~/github_actions
-            # pwd
             git branch
-            ls
             git checkout swagger
             git branch
             git pull origin swagger
+            pwd
             ls
             # git pull origin master
             # npm install --production
