@@ -44,12 +44,7 @@ jobs:
             export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
             source ~/.bashrc
             cd ~/github_actions
-            git branch
             git checkout swagger
-            git branch
             git pull origin swagger
-            pwd
-            ls
-            # git pull origin master
-            # npm install --production
-            # pm2 restart node-app
+            cd ./swagger
+            node index.js
