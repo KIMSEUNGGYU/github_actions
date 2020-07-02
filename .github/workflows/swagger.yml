@@ -44,7 +44,9 @@ jobs:
           script: |
             export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
             source ~/.bashrc
+            pwd
             cd ~/github_actions
+            pwd
             git branch
             # git pull origin master
             # npm install --production
