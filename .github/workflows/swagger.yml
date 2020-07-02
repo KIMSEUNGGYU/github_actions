@@ -47,4 +47,5 @@ jobs:
             git checkout swagger
             git pull origin swagger
             cd ./swagger
+            npm i
             node index.js
