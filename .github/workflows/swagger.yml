@@ -27,7 +27,7 @@ jobs:
       - name: npm install and test
         run: |
           npm install
-          npm test
+          node index.js
         env:
           CI: true
   deploy:
