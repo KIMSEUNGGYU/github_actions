@@ -48,4 +48,4 @@ jobs:
             git pull origin swagger
             cd ./swagger
             npm i
-            node index.js
+            pm2 restart swagger
