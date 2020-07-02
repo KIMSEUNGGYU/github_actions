@@ -1,0 +1,25 @@
+{
+  "name": "github_actions",
+  "version": "1.0.0",
+  "description": "- github actions swagger 설정",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KIMSEUNGGYU/github_actions.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KIMSEUNGGYU/github_actions/issues"
+  },
+  "homepage": "https://github.com/KIMSEUNGGYU/github_actions#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4"
+  }
+}
