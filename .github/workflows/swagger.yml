@@ -44,10 +44,15 @@ jobs:
           script: |
             export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
             source ~/.bashrc
-            pwd
+            # pwd
             cd ~/github_actions
-            pwd
+            # pwd
             git branch
+            ls
+            git checkout swagger
+            git branch
+            git pull origin swagger
+            ls
             # git pull origin master
             # npm install --production
             # pm2 restart node-app
