@@ -6,7 +6,7 @@ info:
   description: ""
 
 servers:
-  - url: "{protocol}://{domain}/api/{version}"
+  - url: "{protocol}://{domain}/{version}"
     variables:
       protocol:
         enum:
@@ -16,8 +16,8 @@ servers:
       domain:
         enum:
           - 127.0.0.1:3000
-          - staging.co.kr
-          - production.co.kr
+          - api.staging.co.kr
+          - api.production.co.kr
         default: 127.0.0.1:3000
       version:
         enum:
@@ -28,23 +28,27 @@ servers:
 tags:
   - name: "user"
     description: "유저 관련"
-  - name: "admin"
-    description: "어드민 관련"
-  - name: "doctor"
-    description: "상담사관련"
+  # - name: 'admin'
+  #   description: '어드민 관련'
+  # - name: 'partners'
+  #   description: '상담사관련'
   - name: "keyword"
     description: "키워드 관련"
-  - name: "token"
-    description: "토큰 관련"
-  - name: "chat"
-    description: "채팅 관련 / socket room "
+  # - name: 'token'
+  #   description: '토큰 관련'
+  # - name: 'chat'
+  #   description: '채팅 관련 / socket room '
   - name: "payment"
     description: "결제 / 거래내역 관련"
-  - name: "schedule"
+  - name: "schedules"
     description: "스케쥴링 관련"
+  - name: "search"
+    description: "검색 관련 API"
 
 security:
   - ApiKeyAuth: []
+  - userApiKeyAuth: []
+# - bearerAuth: []
 
 paths:
   /user:
@@ -60,14 +64,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/200"
 
-  /user/detail/{user_id}:
+  /user/{userId}/detail:
     get:
       tags:
         - user
       summary: "특정 유저 상세정보"
       parameters:
         - in: path
-          name: user_id
+          name: userId
           required: true
           schema:
             type: string
@@ -77,32 +81,36 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/200"
+                allOf:
+                  - $ref: "#/components/schemas/200"
+                  - type: object
+                    properties:
+                      result:
+                        $ref: "#/components/schemas/user"
+    # put:
+    #   tags:
+    #   - user
+    #   summary: '유저 정보 수정'
+    #   parameters:
+    #     - in: path
+    #       name: userId
+    #       required: true
+    #       schema:
+    #         type: string
+    #   requestBody:
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: '#/components/schemas/user'
+    #   responses:
+    #     200:
+    #       description: 'success'
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/200'
 
-    put:
-      tags:
-        - user
-      summary: "유저 정보 수정"
-      parameters:
-        - in: path
-          name: user_id
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/user"
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
-
-  /user/create:
+  /user/signup:
     post:
       tags:
         - user
@@ -120,7 +128,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/200"
 
-  /user/login:
+  /user/singin:
     post:
       tags:
         - user
@@ -129,7 +137,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/user_login"
+              $ref: "#/components/schemas/userLogin"
       responses:
         200:
           description: "success"
@@ -157,7 +165,7 @@ paths:
   #             schema:
   #               $ref: '#/components/schemas/200'
 
-  /user/logout:
+  /user/signout:
     post:
       tags:
         - user
@@ -194,117 +202,117 @@ paths:
   #             schema:
   #               $ref: '#/components/schemas/200'
 
-  /doctor:
-    get:
-      tags:
-        - doctor
-      summary: "상담사 정보"
-      parameters:
-        - $ref: "#/components/parameters/pageParam"
-        - $ref: "#/components/parameters/sizeparam"
-        - $ref: "#/components/parameters/keywordParam"
-        - $ref: "#/components/parameters/levelParam"
-        - $ref: "#/components/parameters/genderParam"
-        - $ref: "#/components/parameters/certificateParam"
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
+  # /partners:
+  #   get:
+  #     tags:
+  #     - partners
+  #     summary: '상담사 정보'
+  #     parameters:
+  #     - $ref: '#/components/parameters/pageParam'
+  #     - $ref: '#/components/parameters/sizeparam'
+  #     - $ref: '#/components/parameters/keywordParam'
+  #     - $ref: '#/components/parameters/levelParam'
+  #     - $ref: '#/components/parameters/genderParam'
+  #     - $ref: '#/components/parameters/certificateParam'
+  #     responses:
+  #       200:
+  #         description: 'success'
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/200'
 
-  /doctor/{doctor_id}:
-    get:
-      tags:
-        - doctor
-      summary: "특정 상담사 상세정보"
-      parameters:
-        - in: path
-          name: doctor_id
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
+  # /partners/detail/{partnersId}:
+  #   get:
+  #     tags:
+  #     - partners
+  #     summary: '특정 상담사 상세정보'
+  #     parameters:
+  #       - in: path
+  #         name: partnersId
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       200:
+  #         description: 'success'
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/200'
 
-    put:
-      tags:
-        - doctor
-      summary: "상담사 정보 수정"
-      parameters:
-        - in: path
-          name: doctor_id
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/200"
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
+  # put:
+  #   tags:
+  #   - partners
+  #   summary: '상담사 정보 수정'
+  #   parameters:
+  #     - in: path
+  #       name: partnersId
+  #       required: true
+  #       schema:
+  #         type: string
+  #   requestBody:
+  #     content:
+  #       application/json:
+  #         schema:
+  #           $ref: '#/components/schemas/200'
+  #   responses:
+  #     200:
+  #       description: 'success'
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/200'
 
-  /doctor/create:
-    post:
-      tags:
-        - doctor
-      summary: "상담사 회원가입"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/doctor"
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
+  # /partners/signup:
+  #   post:
+  #     tags:
+  #     - partners
+  #     summary: '상담사 회원가입'
+  #     requestBody:
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/partners'
+  #     responses:
+  #       200:
+  #         description: 'success'
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/200'
 
-  /doctor/login:
-    post:
-      tags:
-        - doctor
-      summary: "상담사 로그아웃"
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "#/components/schemas/200"
-                  - type: object
-                    properties:
-                      result:
-                        type: obejct
-                        $ref: "#/components/schemas/LoginResponse"
+  # /partners/signin:
+  #   post:
+  #     tags:
+  #     - partners
+  #     summary: '상담사 로그아웃'
+  #     responses:
+  #       200:
+  #         description: 'success'
+  #         content:
+  #           application/json:
+  #             schema:
+  #               allOf:
+  #               - $ref: '#/components/schemas/200'
+  #               - type: object
+  #                 properties:
+  #                   result:
+  #                     type: obejct
+  #                     $ref: '#/components/schemas/LoginResponse'
 
-  /doctor/logout:
-    post:
-      tags:
-        - doctor
-      summary: "상담사 로그아웃"
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
+  # /partners/signout:
+  #   post:
+  #     tags:
+  #     - partners
+  #     summary: '상담사 로그아웃'
+  #     responses:
+  #       200:
+  #         description: 'success'
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/200'
   /keywords:
     get:
       tags:
@@ -316,9 +324,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/200"
+                allOf:
+                  - $ref: "#/components/schemas/200"
+                  - type: object
+                    properties:
+                      result:
+                        $ref: "#/components/schemas/keywords"
 
-  # /keyword/{user_id}:
+  # /keyword/{userId}:
   #   get:
   #     tags:
   #     - keyword
@@ -331,31 +344,47 @@ paths:
   #             schema:
   #               $ref: '#/components/schemas/200'
 
-  /token/validate:
-    post:
-      tags:
-        - token
-      summary: "토큰 검증"
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
+  # @이거는 로그인 할 때 미들웨어 에서 생성한다.
+  # /token/create:
+  #   post:
+  #     tags:
+  #     - token
+  #     summary: '토큰 검증'
+  #     responses:
+  #       200:
+  #         description: 'success'
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/200'
 
-  /token/refresh:
-    post:
-      tags:
-        - token
-      summary: "토큰 리프레쉬"
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
+  # @이거는 미들웨어 처리하도록 한다
+  # /token/validate:
+  #   post:
+  #     tags:
+  #     - token
+  #     summary: '토큰 검증'
+  #     responses:
+  #       200:
+  #         description: 'success'
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/200'
+
+  # @ 이거는 상담을 시작할때 한번 새롭게 만들어준다? 리프레쉬 해준다
+  # /token/refresh:
+  #   post:
+  #     tags:
+  #     - token
+  #     summary: '토큰 리프레쉬'
+  #     responses:
+  #       200:
+  #         description: 'success'
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/200'
 
   # /review:
   #   get:
@@ -400,26 +429,15 @@ paths:
   #           application/json:
   #             schema:
   #               $ref: '#/components/schemas/200'
-  /chat:
-    post:
-      tags:
-        - chat
-      description: 채팅 정보 입력
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
 
-  /schedule/doctor/{doctor_id}:
+  /schedules/partners/{partnersId}:
     get:
       tags:
-        - schedule
+        - schedules
+      summary: "상담사 스케쥴 일정 정보 가져오는 API"
       parameters:
         - in: path
-          name: doctor_id
+          name: partnersId
           required: true
           schema:
             type: integer
@@ -429,12 +447,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/200"
+                allOf:
+                  - $ref: "#/components/schemas/200"
+                  - type: object
+                    properties:
+                      result:
+                        $ref: "#/components/schemas/schedules"
 
-  /schedule/create:
+  /schedules/partners:
     post:
       tags:
-        - schedule
+        - schedules
+      summary: "스케쥴 일정 생성 API"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/schedulesObject"
       responses:
         200:
           description: "success"
@@ -442,6 +471,52 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/200"
+
+  /schedules/user:
+    post:
+      tags:
+        - schedules
+      summary: "유저 스케쥴 확정 API"
+      description: "유저가 해당 스케쥴에 등록 ? 하는 것으로 POST 이지만 PUT과 같이 DB 업데이트를 합니다"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/schedulesObject"
+
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200"
+
+  /search/partners:
+    get:
+      tags:
+        - search
+      summary: "상담사 검색 정보 리스트 반환 API"
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/sizeparam"
+        - $ref: "#/components/parameters/keywordParam"
+        - $ref: "#/components/parameters/levelParam"
+        - $ref: "#/components/parameters/genderParam"
+        - $ref: "#/components/parameters/certificateParam"
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/200"
+                  - type: object
+                    properties:
+                      result:
+                        $ref: "#/components/schemas/partners"
 
 components:
   schemas:
@@ -461,7 +536,7 @@ components:
         gender:
           type: integer
 
-    user_login:
+    userLogin:
       type: object
       properties:
         userid:
@@ -469,7 +544,7 @@ components:
         passowrd:
           type: string
 
-    doctor:
+    partners:
       type: object
       properties:
         email:
@@ -499,13 +574,41 @@ components:
               type: integer
               example: "1 (1급: 1, 2급: 2)"
 
+    schedulesObject:
+      type: object
+      properties:
+        partnersId:
+          type: integer
+          example: "email 또는 ID 또는 헤더"
+        schedules:
+          type: array
+          items:
+            type: string
+            example: "2020-07-02 00:00:00"
+
+    schedules:
+      type: object
+      properties:
+        schedules:
+          type: array
+          items:
+            type: object
+            properties:
+              scheduleId:
+                type: integer
+                example: 1
+              startAt:
+                type: string
+                example: "2020-07-02 00:00:00"
+
     keywords:
       type: object
       properties:
-        id:
-          type: integer
-        code:
-          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+          example: ["우울", "행복"]
 
     LoginResponse:
       type: object
@@ -518,8 +621,6 @@ components:
     200:
       type: object
       properties:
-        code:
-          type: integer
         message:
           type: string
         result:
@@ -533,7 +634,7 @@ components:
       schema:
         type: integer
         example: 1
-      required: True
+      # required: True
 
     sizeparam:
       in: query
@@ -542,7 +643,7 @@ components:
       schema:
         type: integer
         example: 15
-      required: True
+      # required: True
 
     keywordParam:
       in: query
@@ -581,6 +682,10 @@ components:
       in: header
       type: apiKey
       name: "x-api-key"
+    userApiKeyAuth:
+      in: header
+      type: apiKey
+      name: "x-api-userid"
     bearerAuth:
       type: http
       scheme: bearer
