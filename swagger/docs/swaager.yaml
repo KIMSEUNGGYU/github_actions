@@ -368,6 +368,23 @@ paths:
     post:
       tags:
         - payment
+      summary: 포인트 주고 받는 API
+      description: 문제가 왜이리 많아 userId, partnersId 어찌 구분하니 ?
+      security:
+        - ApiKeyAuth: []
+        - AccessTokenAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                to:
+                  type: integer
+                from:
+                  type: integer
+                point:
+                  type: integer
       responses:
         200:
           description: "success"
@@ -541,7 +558,6 @@ paths:
             schema:
               allOf:
                 - $ref: "#/components/schemas/schedulesObject"
-
       responses:
         200:
           description: "success"
