@@ -8,6 +8,15 @@ const app = express();
 // Swagger definition
 const swaggerDefinition = {
   components: {}, // ADD THIS LINE!!!
+  openapi: "3.0.1",
+  // securityDefinitions: {
+  //   jwt: {
+  //     type: "apiKey",
+  //     name: "Authorization",
+  //     in: "header",
+  //   },
+  // },
+  // security: [{ jwt: [] }],
   info: {
     title: "Swagger API V1", // Title of the documentation
     version: "1.0.0", // Version of the app
