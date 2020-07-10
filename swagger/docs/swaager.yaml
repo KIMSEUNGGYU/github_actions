@@ -47,34 +47,44 @@ tags:
 
 security:
   - ApiKeyAuth: []
-  - userApiKeyAuth: []
+# - userApiKeyAuth: []
 # - bearerAuth: []
 
 paths:
-  /user:
-    get:
-      tags:
-        - user
-      summary: "유저 정보"
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
+  # /user:
+  #   get:
+  #     tags:
+  #     - user
+  #     summary: '유저 정보'
+  #     parameters:
+  #     - in: query
+  #       name: page
+  #       schema:
+  #         type: integer
+  #       required: True
+  #     responses:
+  #       200:
+  #         description: 'success'
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/200'
 
-  /user/{userId}/detail:
+  /user/detail/{userId}:
     get:
       tags:
         - user
       summary: "특정 유저 상세정보"
+      description: "1. 유저 마이페이지에서 사용"
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: string
+      security:
+        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       responses:
         200:
           description: "success"
@@ -120,6 +130,8 @@ paths:
           application/json; charset:utf-8:
             schema:
               $ref: "#/components/schemas/user"
+      security:
+        - ApiKeyAuth: []
       responses:
         200:
           description: "success"
@@ -133,11 +145,14 @@ paths:
       tags:
         - user
       summary: "유저 로그인"
+      description: " 1. JWT Refresh 관련 정보 확인 필요<br>2. 리턴 값을 어떻게 줄껀지<br>3. SNS 로그인 어떻게 할꺼니 ?"
       requestBody:
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/userLogin"
+      security:
+        - ApiKeyAuth: []
       responses:
         200:
           description: "success"
@@ -170,6 +185,9 @@ paths:
       tags:
         - user
       summary: "유저 로그아웃"
+      security:
+        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       responses:
         200:
           description: "success"
@@ -318,6 +336,8 @@ paths:
       tags:
         - keyword
       summary: "키워드 정보"
+      security:
+        - ApiKeyAuth: []
       responses:
         200:
           description: "success"
@@ -343,6 +363,18 @@ paths:
   #           application/json:
   #             schema:
   #               $ref: '#/components/schemas/200'
+
+  /payment:
+    post:
+      tags:
+        - payment
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200"
 
   # @이거는 로그인 할 때 미들웨어 에서 생성한다.
   # /token/create:
@@ -435,12 +467,15 @@ paths:
       tags:
         - schedules
       summary: "상담사 스케쥴 일정 정보 가져오는 API"
+      description: "patnersId? email?<br> startedAt 30분 단위로 하냐 / Range로 하냐 ?<br> 금일 00시 이후 스케쥴만 보여줘 ? 어떻게해 ? 정해줘 제발"
       parameters:
         - in: path
           name: partnersId
           required: true
           schema:
             type: integer
+      security:
+        - ApiKeyAuth: []
       responses:
         200:
           description: "success"
@@ -459,6 +494,9 @@ paths:
       tags:
         - schedules
       summary: "스케쥴 일정 생성 API"
+      security:
+        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       requestBody:
         content:
           application/json:
@@ -472,12 +510,31 @@ paths:
               schema:
                 $ref: "#/components/schemas/200"
 
+    delete:
+      tags:
+        - schedules
+      security:
+        - ApiKeyAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/scheduleIdParam"
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200"
+
   /schedules/user:
     post:
       tags:
         - schedules
       summary: "유저 스케쥴 확정 API"
-      description: "유저가 해당 스케쥴에 등록 ? 하는 것으로 POST 이지만 PUT과 같이 DB 업데이트를 합니다"
+      description: "수정 절대 불가 절대 못 바꿔 진짜다 안된다 경고창 띄워주세요 "
+      security:
+        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       requestBody:
         content:
           application/json:
@@ -516,7 +573,12 @@ paths:
                   - type: object
                     properties:
                       result:
-                        $ref: "#/components/schemas/partners"
+                        type: object
+                        properties:
+                          partners:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/partners"
 
 components:
   schemas:
@@ -531,6 +593,9 @@ components:
           writeOnly: True
         name:
           type: string
+        birth:
+          type: string
+          format: date
         phone:
           type: string
         gender:
@@ -539,14 +604,18 @@ components:
     userLogin:
       type: object
       properties:
-        userid:
+        email:
           type: string
+          format: email
         passowrd:
           type: string
 
     partners:
       type: object
       properties:
+        partnerId:
+          type: integer
+          example: 1
         email:
           type: string
           format: email
@@ -555,24 +624,39 @@ components:
           writeOnly: True
         name:
           type: string
-        detail:
-          type: object
-          properties:
-            introduce:
-              type: string
-              example: 소개글
-            info:
-              type: string
-              example: 상담사 정보
-            level:
-              type: integer
-              example: "1 (일반: 1, 전문: 2, 마스터: 3)"
-            gender:
-              type: integer
-              example: "1 (남자: 1, 여자: 2)"
-            certificate:
-              type: integer
-              example: "1 (1급: 1, 2급: 2)"
+        introduce:
+          type: string
+          example: 소개글
+        info:
+          type: string
+          example: 상담사 정보
+        level:
+          type: integer
+          example: "1 (일반: 1, 전문: 2, 마스터: 3)"
+        gender:
+          type: integer
+          example: "1 (남자: 1, 여자: 2)"
+        certificate:
+          type: integer
+          example: "1 (1급: 1, 2급: 2)"
+        # detail:
+        #   type: object
+        #   properties:
+        #     introduce:
+        #       type: string
+        #       example: 소개글
+        #     info:
+        #       type: string
+        #       example: 상담사 정보
+        #     level:
+        #       type: integer
+        #       example: '1 (일반: 1, 전문: 2, 마스터: 3)'
+        #     gender:
+        #       type: integer
+        #       example: '1 (남자: 1, 여자: 2)'
+        #     certificate:
+        #       type: integer
+        #       example: '1 (1급: 1, 2급: 2)'
 
     schedulesObject:
       type: object
@@ -585,6 +669,12 @@ components:
           items:
             type: string
             example: "2020-07-02 00:00:00"
+            # type: object
+            # properties:
+            #   startedAt:
+            #     type: string
+            #     format: datetime
+            #     example: '2020-07-02 00:00:00'
 
     schedules:
       type: object
@@ -597,6 +687,8 @@ components:
               scheduleId:
                 type: integer
                 example: 1
+              reservation:
+                type: boolean
               startAt:
                 type: string
                 example: "2020-07-02 00:00:00"
@@ -677,6 +769,16 @@ components:
         type: integer
         example: 1
 
+    scheduleIdParam:
+      in: query
+      name: scheduleId
+      required: true
+      schema:
+        type: array
+        items:
+          type: string
+          format: multi
+
   securitySchemes:
     ApiKeyAuth:
       in: header
@@ -685,7 +787,12 @@ components:
     userApiKeyAuth:
       in: header
       type: apiKey
-      name: "x-api-userid"
+      name: "x-api-userId"
+    AccessTokenAuth:
+      in: header
+      type: apiKey
+      name: "x-api-accessToken"
+
     bearerAuth:
       type: http
       scheme: bearer
