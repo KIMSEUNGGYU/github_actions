@@ -30,8 +30,8 @@ tags:
     description: "유저 관련"
   # - name: 'admin'
   #   description: '어드민 관련'
-  # - name: 'partners'
-  #   description: '상담사관련'
+  - name: "partners"
+    description: "상담사관련"
   - name: "keyword"
     description: "키워드 관련"
   # - name: 'token'
@@ -282,23 +282,23 @@ paths:
   #           schema:
   #             $ref: '#/components/schemas/200'
 
-  # /partners/signup:
-  #   post:
-  #     tags:
-  #     - partners
-  #     summary: '상담사 회원가입'
-  #     requestBody:
-  #       content:
-  #         application/json:
-  #           schema:
-  #             $ref: '#/components/schemas/partners'
-  #     responses:
-  #       200:
-  #         description: 'success'
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/200'
+  /partners/signup:
+    post:
+      tags:
+        - partners
+      summary: "상담사 회원가입"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/partners"
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200"
 
   # /partners/signin:
   #   post:
@@ -368,8 +368,35 @@ paths:
     post:
       tags:
         - payment
+      summary: 카카오톡에서 결제하고
+      description: 카카오톡 결제 후 포인틀르 DB에 넣어준다
+      security:
+        - ApiKeyAuth: []
+        - AccessTokenAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                to:
+                  type: integer
+                point:
+                  type: integer
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200"
+
+  /reservation:
+    post:
+      tags:
+        - payment
       summary: 포인트 주고 받는 API
-      description: 문제가 왜이리 많아 userId, partnersId 어찌 구분하니 ?
+      description: 문제가 왜이리 많아 userId, partnersId 어찌 구분하니 -> 차감된 금액을 반환 시켜줘야된다?
       security:
         - ApiKeyAuth: []
         - AccessTokenAuth: []
@@ -491,6 +518,12 @@ paths:
           required: true
           schema:
             type: integer
+        - in: query
+          name: date
+          required: true
+          schema:
+            type: string
+            format: date
       security:
         - ApiKeyAuth: []
       responses:
@@ -595,6 +628,9 @@ paths:
                             type: array
                             items:
                               $ref: "#/components/schemas/partners"
+                          total:
+                            type: integer
+                            example: 10
 
 components:
   schemas:
@@ -683,8 +719,12 @@ components:
         schedules:
           type: array
           items:
-            type: string
-            example: "2020-07-02 00:00:00"
+            type: object
+            properties:
+              scheduleId:
+                type: integer
+                example: 1
+            # example: '2020-07-02 00:00:00'
             # type: object
             # properties:
             #   startedAt:
@@ -705,9 +745,12 @@ components:
                 example: 1
               reservation:
                 type: boolean
-              startAt:
+              startedAt:
                 type: string
-                example: "2020-07-02 00:00:00"
+                example: "2020-07-02 12:00:00"
+              endedAt:
+                type: string
+                example: "2020-07-02 12:30:00"
 
     keywords:
       type: object
