@@ -559,22 +559,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/200"
-
-    delete:
-      tags:
-        - schedules
-      security:
-        - ApiKeyAuth: []
-        - AccessTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/scheduleIdParam"
-      responses:
-        200:
-          description: "success"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200"
+    # delete:
+    #   tags:
+    #     - schedules
+    #   security:
+    #     - ApiKeyAuth: []
+    #     - AccessTokenAuth: []
+    #   parameters:
+    #     - $ref: "#/components/parameters/scheduleIdParam"
+    #   responses:
+    #     200:
+    #       description: "success"
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: "#/components/schemas/200"
 
   /schedules/user:
     post:
