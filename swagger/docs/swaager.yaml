@@ -391,7 +391,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/200"
 
-  /reservation:
+  /payment/reservation:
     post:
       tags:
         - payment
