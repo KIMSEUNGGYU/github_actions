@@ -4,10 +4,12 @@
 name: Node Github CI/CD
 
 on:
-  push:
+  # push:
+  # branches:
+  # - develop
+  pull_request:
     branches:
       - develop
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -21,16 +23,23 @@ jobs:
       - uses: actions/checkout@v2
       - name: check ls 2
         run: ls
-      - name: Use Node.js ${{ matrix.node-version }} # node 설치
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: npm install and test
+      - name: Step 1
         run: |
-          npm install
-          # npm test
-        env:
-          CI: true
+          echo " Step 1"
+      - name: Step 2
+        if: github.event.pull_request.merged == true
+        run: |
+          echo " Step 2"
+      # - name: Use Node.js ${{ matrix.node-version }} # node 설치
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
+      # - name: npm install and test
+      #   run: |
+      #     npm install
+      #     # npm test
+      # env:
+      #   CI: true
   # deploy:
   #   needs: [test]
   #   runs-on: ubuntu-latest
