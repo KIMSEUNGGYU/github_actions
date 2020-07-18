@@ -51,25 +51,6 @@ security:
 # - bearerAuth: []
 
 paths:
-  # /user:
-  #   get:
-  #     tags:
-  #     - user
-  #     summary: '유저 정보'
-  #     parameters:
-  #     - in: query
-  #       name: page
-  #       schema:
-  #         type: integer
-  #       required: True
-  #     responses:
-  #       200:
-  #         description: 'success'
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/200'
-
   /user/detail/{userId}:
     get:
       tags:
@@ -97,28 +78,6 @@ paths:
                     properties:
                       result:
                         $ref: "#/components/schemas/user"
-    # put:
-    #   tags:
-    #   - user
-    #   summary: '유저 정보 수정'
-    #   parameters:
-    #     - in: path
-    #       name: userId
-    #       required: true
-    #       schema:
-    #         type: string
-    #   requestBody:
-    #     content:
-    #       application/json:
-    #         schema:
-    #           $ref: '#/components/schemas/user'
-    #   responses:
-    #     200:
-    #       description: 'success'
-    #       content:
-    #         application/json:
-    #           schema:
-    #             $ref: '#/components/schemas/200'
 
   /user/signup:
     post:
@@ -167,19 +126,6 @@ paths:
                         type: obejct
                         $ref: "#/components/schemas/LoginResponse"
 
-  # /user/login/sns:
-  #   post:
-  #     tags:
-  #     - user
-  #     summary: '유저 SNS 로그인'
-  #     responses:
-  #       200:
-  #         description: 'success'
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/200'
-
   /user/signout:
     post:
       tags:
@@ -196,29 +142,22 @@ paths:
               schema:
                 $ref: "#/components/schemas/200"
 
-  # /admin/list:
-  #   get:
-  #     tags:
-  #     - admin
-  #     responses:
-  #       200:
-  #         description: 'success'
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/200'
-
-  # /admin/user/list:
-  #   get:
-  #     tags:
-  #     - admin
-  #     responses:
-  #       200:
-  #         description: 'success'
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/200'
+  /user/check:
+    get:
+      tags:
+        - user
+      summary: "유저 이메일 중복 확인"
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: "#/components/parameters/emailParam"
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200"
 
   # /partners:
   #   get:
@@ -259,29 +198,6 @@ paths:
   #             schema:
   #               $ref: '#/components/schemas/200'
 
-  # put:
-  #   tags:
-  #   - partners
-  #   summary: '상담사 정보 수정'
-  #   parameters:
-  #     - in: path
-  #       name: partnersId
-  #       required: true
-  #       schema:
-  #         type: string
-  #   requestBody:
-  #     content:
-  #       application/json:
-  #         schema:
-  #           $ref: '#/components/schemas/200'
-  #   responses:
-  #     200:
-  #       description: 'success'
-  #       content:
-  #         application/json:
-  #           schema:
-  #             $ref: '#/components/schemas/200'
-
   /partners/signup:
     post:
       tags:
@@ -292,6 +208,27 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/partners"
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200"
+
+  /partners/detail:
+    put:
+      tags:
+        - partners
+      summary: "상당사 정보 변경 (어드민에서 사용)"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: string
       responses:
         200:
           description: "success"
@@ -351,19 +288,6 @@ paths:
                       result:
                         $ref: "#/components/schemas/keywords"
 
-  # /keyword/{userId}:
-  #   get:
-  #     tags:
-  #     - keyword
-  #     summary: '키워드 정보'
-  #     responses:
-  #       200:
-  #         description: 'success'
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/200'
-
   /payment:
     post:
       tags:
@@ -391,7 +315,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/200"
 
-  /payment/reservation:
+  /reservation:
     post:
       tags:
         - payment
@@ -559,21 +483,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/200"
-    # delete:
-    #   tags:
-    #     - schedules
-    #   security:
-    #     - ApiKeyAuth: []
-    #     - AccessTokenAuth: []
-    #   parameters:
-    #     - $ref: "#/components/parameters/scheduleIdParam"
-    #   responses:
-    #     200:
-    #       description: "success"
-    #       content:
-    #         application/json:
-    #           schema:
-    #             $ref: "#/components/schemas/200"
 
   /schedules/user:
     post:
@@ -647,8 +556,6 @@ components:
         birth:
           type: string
           format: date
-        phone:
-          type: string
         gender:
           type: integer
 
@@ -673,41 +580,26 @@ components:
         password:
           type: string
           writeOnly: True
+        addr:
+          type: string
+          example: 경기도 화성시 동탄대로 24길
         name:
           type: string
-        introduce:
-          type: string
-          example: 소개글
-        info:
-          type: string
-          example: 상담사 정보
-        level:
-          type: integer
-          example: "1 (일반: 1, 전문: 2, 마스터: 3)"
         gender:
           type: integer
           example: "1 (남자: 1, 여자: 2)"
-        certificate:
-          type: integer
-          example: "1 (1급: 1, 2급: 2)"
-        # detail:
-        #   type: object
-        #   properties:
-        #     introduce:
-        #       type: string
-        #       example: 소개글
-        #     info:
-        #       type: string
-        #       example: 상담사 정보
-        #     level:
-        #       type: integer
-        #       example: '1 (일반: 1, 전문: 2, 마스터: 3)'
-        #     gender:
-        #       type: integer
-        #       example: '1 (남자: 1, 여자: 2)'
-        #     certificate:
-        #       type: integer
-        #       example: '1 (1급: 1, 2급: 2)'
+        # addr:
+        #   type: string
+        #   example: 경기도 화성시 동탄대로 24 길
+        # info:
+        #   type: string
+        #   example: 상담사 정보
+        # level:
+        #   type: integer
+        #   example: '1 (일반: 1, 전문: 2, 마스터: 3)'
+        # certificate:
+        #   type: integer
+        #   example: '1 (1급: 1, 2급: 2)'
 
     schedulesObject:
       type: object
@@ -777,6 +669,14 @@ components:
           type: object
 
   parameters:
+    emailParam:
+      in: query
+      name: email
+      description: 이메일
+      schema:
+        type: string
+        format: email
+
     pageParam:
       in: query
       name: page
