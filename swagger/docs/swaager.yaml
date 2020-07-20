@@ -550,12 +550,17 @@ components:
           format: email
         password:
           type: string
+          example: "password"
           writeOnly: True
         name:
           type: string
-        birth:
-          type: string
-          format: date
+          example: "name"
+        age:
+          type: integer
+          example: 26
+        # birth:
+        #   type: string
+        #   format: date
         gender:
           type: integer
 
