@@ -1,0 +1,61 @@
+name: Node Github CI/CD
+
+on:
+  push:
+    branches:
+      - G-3/feature
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # strategy:
+    #   matrix:
+    #     node-version: [12.x]
+
+    steps:
+      - name: Checkout source code. # 레포지토리 체크아웃
+        uses: actions/checkout@v2
+
+      - name: Check branch
+        run: git branch
+
+      - name: Install Dependencies # 의존 파일 설치
+        run: npm install
+
+      - name: Build # React Build
+        run: npm run build
+      # - name: Use Node.js ${{ matrix.node-version }} # node 설치
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
+      # - name: Cache node modules # node modules 캐싱
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: node_modules
+      #     key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.OS }}-build-
+      #       ${{ runner.OS }}-
+      # - name: npm install
+      #   run: npm install
+      # - name: npm build
+      #   run: npm run build
+  # deploy:
+  #   needs: [test]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: SSH and deploy node app
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.SSH_HOST }}
+  #         username: ${{ secrets.SSH_USERNAME }}
+  #         key: ${{ secrets.SSH_KEY }}
+  #         port: ${{ secrets.SSH_PORT }}
+  #         script: |
+  #           export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
+  #           source ~/.bashrc
+  #           cd ~/github_actions
+  #           git checkout G-2/feature
+  #           git pull origin G-2/feature
+  #           npm install --production
+  #           pm2 restart server
