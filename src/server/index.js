@@ -8,7 +8,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/api/v1/", function (req, res) {
-  return res.status(200).json(({message: "api/v1"}));
+  return res.status(200).json({ message: "api/v1 github actions test" });
 });
 
 app.listen(port, () => {

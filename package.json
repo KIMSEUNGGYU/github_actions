@@ -5,7 +5,7 @@
   "scripts": {
     "test": "mocha ./src/server/test/* --exit",
     "build": "webpack --mode production",
-    "start": "npm run build && node src/server/index.js",
+    "start": "npm run build && pm2 restart server",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
     "dev": "\"npm run server\" \"npm run client\""
