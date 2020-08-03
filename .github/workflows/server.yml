@@ -18,12 +18,20 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Cache node modules # node modules 캐싱
+      - uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
       - name: npm install and test
         run: |
           npm install
           npm run test
-      # env:
-      #   CI: true
+
   deploy:
     needs: [test]
     runs-on: ubuntu-latest
