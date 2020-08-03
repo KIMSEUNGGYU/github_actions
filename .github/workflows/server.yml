@@ -21,25 +21,25 @@ jobs:
       - name: npm install and test
         run: |
           npm install
-          npm test
-      env:
-        CI: true
-  # deploy:
-  #   needs: [test]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: SSH and deploy node app
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.SSH_HOST }}
-  #         username: ${{ secrets.SSH_USERNAME }}
-  #         key: ${{ secrets.SSH_KEY }}
-  #         port: ${{ secrets.SSH_PORT }}
-  #         script: |
-  #           export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
-  #           source ~/.bashrc
-  #           cd ~/github_actions
-  #           git checkout master
-  #           git pull origin master
-  #           npm install --production
-  #           pm2 restart node-app
+          npm run test
+      # env:
+      #   CI: true
+  deploy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH and deploy node app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
+            source ~/.bashrc
+            cd ~/github_actions
+            git checkout G-2/feature
+            git pull origin G-2/feature
+            npm install --production
+            pm2 restart server
