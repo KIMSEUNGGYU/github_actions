@@ -3,12 +3,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get("/", function (req, res) {
-  return res.send("Hello github actions 10");
-  //return res.status(200).json(({message: "Hello github actions 10"}));
+  return res.send("Github actions server test 1");
 });
 
 app.get("/api/v1/", function (req, res) {
-  return res.status(200).json({ message: "api/v1 github actions test" });
+  return res.status(200).json({ message: "api/v1 github actions test 1" });
 });
 
 app.listen(port, () => {
