@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Cache node modules # node modules 캐싱
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
@@ -32,22 +32,22 @@ jobs:
           npm install
           npm run test
 
-#   deploy:
-#     needs: [test]
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: SSH and deploy node app
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.SSH_HOST }}
-#           username: ${{ secrets.SSH_USERNAME }}
-#           key: ${{ secrets.SSH_KEY }}
-#           port: ${{ secrets.SSH_PORT }}
-#           script: |
-#             export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
-#             source ~/.bashrc
-#             cd ~/github_actions
-#             git checkout G-2/feature
-#             git pull origin G-2/feature
-#             npm install --production
-#             pm2 restart server
+  deploy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH and deploy node app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
+            source ~/.bashrc
+            cd ~/github_actions
+            git checkout G-2/feature
+            git pull origin G-2/feature
+            npm install --production
+            pm2 restart server
