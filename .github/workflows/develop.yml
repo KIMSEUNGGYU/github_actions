@@ -36,11 +36,11 @@ jobs:
       # - name: Build # React Build
       #   if: github.event.pull_request.merged == true
       #   run: npm run build
-      - name: test and server start # React Build
-        if: github.event.pull_request.merged == true
-        run: |
-          npm run test
-          npm run build && pm2 start ./src/server/index.js --name server
+      # - name: test and server start # React Build
+      #   if: github.event.pull_request.merged == true
+      #   run: |
+      #     npm run test
+      #     npm run build && pm2 start ./src/server/index.js --name server
 
   deploy:
     needs: [test]
