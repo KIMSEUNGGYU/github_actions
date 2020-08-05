@@ -44,7 +44,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
+            export PATH=/home/gyu/.nvm/versions/node/v12.18.3/bin/:$PATH
             source ~/.bashrc
             cd ~/github_actions
             git checkout G-2/feature
