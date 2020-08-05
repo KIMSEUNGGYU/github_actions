@@ -33,13 +33,12 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
-            source ~/.bashrc
             cd ~/github_actions
-            git checkout master
-            git pull origin master
+            git checkout develop
+            git pull origin develop
             npm install --production
-            pm2 restart node-app
+            npm run build
+            pm2 restart server
       # - name: Use Node.js ${{ matrix.node-version }} # node 설치
       #   uses: actions/setup-node@v1
       #   with:
