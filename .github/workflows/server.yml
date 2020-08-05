@@ -46,8 +46,8 @@ jobs:
           script: |
             # export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
             # source ~/.bashrc
-            pwd
             cd ~/github_actions
+            cat test
             git checkout G-2/feature
             git pull origin G-2/feature
             npm install --production
