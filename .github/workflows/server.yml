@@ -44,6 +44,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
+            whoami
             export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
             source ~/.bashrc
             cd ~/github_actions
