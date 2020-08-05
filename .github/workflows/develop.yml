@@ -6,7 +6,7 @@ name: Node Github CI/CD
 on:
   push:
     branches:
-    - G-4/feature
+      - G-4/feature
   # pull_request:
   #   branches:
   #     - develop
@@ -40,7 +40,7 @@ jobs:
         #   if: github.event.pull_request.merged == true
         run: |
           npm run test
-          npm run build && pm2 start ./src/server/index.js --name server
+          npm run build
   # deploy:
   #   needs: [test]
   #   runs-on: ubuntu-latest
