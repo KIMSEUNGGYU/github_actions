@@ -32,7 +32,7 @@ jobs:
         if: github.event.pull_request.merged == true
         run: |
           npm install
-          npm install pm2 -g
+          npm install pm2
       # - name: Build # React Build
       #   if: github.event.pull_request.merged == true
       #   run: npm run build
