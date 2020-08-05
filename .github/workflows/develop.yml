@@ -4,8 +4,8 @@
 name: Node Github CI/CD
 
 on:
-  # push:
-  branches:
+  push:
+    branches:
     - G-4/feature
   # pull_request:
   #   branches:
