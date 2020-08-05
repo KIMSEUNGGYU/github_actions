@@ -46,5 +46,4 @@ jobs:
             cd ~/github_actions
             git checkout G-3/feature
             git pull origin G-3/feature
-            npm install
             npm run build
