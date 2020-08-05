@@ -32,7 +32,7 @@ jobs:
         if: github.event.pull_request.merged == true
         run: npm install
       - name: test and server start # React Build
-          if: github.event.pull_request.merged == true
+        if: github.event.pull_request.merged == true
         run: |
           npm run test
           npm run build
