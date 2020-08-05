@@ -8,7 +8,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/api/v1/", function (req, res) {
-  return res.status(200).json({ message: "api/v1 merged test 5" });
+  return res.status(200).json({ message: "api/v1 merged test 6" });
 });
 
 app.listen(port, () => {
