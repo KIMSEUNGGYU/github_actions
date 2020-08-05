@@ -15,23 +15,31 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
+    # strategy:
+    #   matrix:
+    #     node-version: [12.x]
 
     steps:
-      - name: check ls
-        run: ls
       - uses: actions/checkout@v2
-      - name: check ls 2
-        run: ls
-      - name: Step 1
-        run: |
-          echo " Step 1"
-      - name: Step 2
+      # - name: Step 1
+      #   run: |
+      #     echo " Step 1"
+      - name: deploy
         if: github.event.pull_request.merged == true
-        run: |
-          echo " Step 2"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            export PATH=/home/ubuntu/.nvm/versions/node/v12.17.0/bin/:$PATH
+            source ~/.bashrc
+            cd ~/github_actions
+            git checkout master
+            git pull origin master
+            npm install --production
+            pm2 restart node-app
       # - name: Use Node.js ${{ matrix.node-version }} # node 설치
       #   uses: actions/setup-node@v1
       #   with:
