@@ -45,7 +45,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ~/github_actions
-            cat test
             git checkout G-2/feature
             git pull origin G-2/feature
             npm install --production
