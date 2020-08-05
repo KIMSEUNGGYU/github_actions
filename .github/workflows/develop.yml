@@ -36,7 +36,8 @@ jobs:
             cd ~/github_actions
             git checkout develop
             git pull origin develop
-            npm install --production
+            # npm install --production
+            npm install
             npm run build
             pm2 restart server
       # - name: Use Node.js ${{ matrix.node-version }} # node 설치
