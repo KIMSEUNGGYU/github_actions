@@ -16,7 +16,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-  #     - name: Install Dependencies # 의존 파일 설치
     steps:
       - uses: actions/checkout@v2
         if: github.event.pull_request.merged == true
