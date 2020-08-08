@@ -38,12 +38,8 @@ exports.detail = async (req, res, next) => {
 
 exports.check = async (req, res, next) => {
   const email = req.query["email"];
-  // console.log("email", email);
   const result = await service.emailCheck(email);
 
-  console.log("result", result);
-  // 데이터가 있으면 result 값이 있음.
-  // 나중에 service.emailCheck [Op.ne] 사용
   result
     ? res
         .status(409)
