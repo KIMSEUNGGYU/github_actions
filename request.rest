@@ -1,0 +1,132 @@
+### SIGNUP
+POST http://localhost:3000/api/v1/user/signup
+x-api-key: dd29771d9da1133deb625006590bd83373df0355fb4f791bdebbe9f93537f78f
+Content-Type: application/json
+
+{
+  "email": "dev2.haemin@gmail.com",
+  "password": "1234",
+  "name": "정해민",
+  "age": 26,
+  "gender": 0
+}
+
+### SIGNIN
+
+POST http://localhost:3000/api/v1/user/signin
+Content-Type: application/json
+
+{
+	"email": "dev.seunggyu@gmail.com",
+	"password": "1234"
+}
+
+### SIGNOUT
+DELETE http://localhost:3000/api/v1/user/signout
+
+
+### EMAIL VALIDATE
+#GET http://localhost:3000/api/v1/user/email/validate?email=dev.seunggyu@gmail.com
+#GET http://localhost:3000/api/v1/user/email/validate?email=gyu2@gmail.com
+GET http://localhost:3000/api/v1/user/email/validate?email=doctor1@gmail.com
+x-api-key: dd29771d9da1133deb625006590bd83373df0355fb4f791bdebbe9f93537f78f
+
+
+################ PARTNER
+### 
+GET http://localhost:3000/api/v1/partner?page=1&size=15&gender=1
+
+### 
+POST http://localhost:3000/api/v1/partner/signup
+Content-Type: application/json
+
+{
+	"email": "seunggyu5@gmail.com",
+	"password": "1234",
+  "name": "김승규",
+  "phoneNumber": "01012347777",
+  "gender": 1,
+  "age": 26
+}
+
+###  partner/detail/{partnerId}
+GET http://localhost:3000/api/v1/partner/detail/19
+
+
+################ ADMIN
+### GET admin/users
+GET http://localhost:3000/api/v1/admin/users?page=1&size=15
+
+### GET admin/partner
+GET http://localhost:3000/api/v1/admin/partners?page=1&size=15&evaluate=0
+
+### admin/partner/{partnerId}
+PUT http://localhost:3000/api/v1/admin/partner/21
+Content-Type: application/json
+
+{
+  "email": "dev44.seunggyu@gmail.com",
+  "password": "1234",
+  "name": "김승규",
+  "gender": 1,
+  "age": 26,
+  "phoneNumber": "01012345678",
+  "url": "seunggy.youtube.com",
+  "shortInfo": "당신의 지치고 힘든 마음을 치료해드려용",
+  "career": "마 내가 어디서 뭐했고 어디서 뭐했어",
+  "info": "내 소개가 말이야 이러쿵 저러쿵 요로콤 저러콤",
+  "chatCost": 30000,
+  "keyword": "불안",
+  "level": 1,
+  "certificate": 1,
+  "image": "string",
+  "evaluate": 1
+}
+
+################### keyword
+###
+GET http://localhost:3000/api/v1/keyword
+x-api-key: dd29771d9da1133deb625006590bd83373df0355fb4f791bdebbe9f93537f78f
+
+################ point
+### PUT /point/charge
+
+PUT  http://localhost:3000/api/v1/point/charge
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "point": 30000
+}
+
+### PUT /point/purchase
+
+PUT http://localhost:3000/api/v1/point/purchase
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "point": 10000,
+  "partnerId": 4,
+  "scheduleId": 1
+}
+
+
+################ schedules
+### PUT /schedules/partner
+
+POST http://localhost:3000/api/v1/schedule/partner
+Content-Type: application/json
+
+{
+  "partnerId": 1,
+  "schedules": [
+    "2020-07-27 12:00:00",
+    "2020-07-27 12:30:00",
+    "2020-07-27 13:00:00"
+  ]
+}
+
+################ schedules
+### GET /schedules/{partnerId}
+GET http://localhost:3000/api/v1/schedule/3
