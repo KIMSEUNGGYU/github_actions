@@ -10,7 +10,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, outputDirectory),
     filename: "bundle.[hash].js",
-    publicPath: "/",
+    // publicPath: "/",
   },
   module: {
     rules: [

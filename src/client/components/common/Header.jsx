@@ -26,7 +26,7 @@ const Header = (props) => {
           <div className="contacts">
             <span className="first">
               <MdEmail />
-              Support@google.com merged test client 1
+              Support@google.com merged test client 2
             </span>
             <span>
               <MdPhone />
