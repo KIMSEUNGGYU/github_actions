@@ -9,22 +9,19 @@ import { PageHome, PageCounselors, PageAdmin } from "client/pages";
 import { Header, Footer } from "client/components";
 
 const App = (props) => {
-    return (
-        <Provider store={store}>
-            <Router history={history}>
-                <Header {...props} />
-                <PublicRoute exact path="/" component={PageHome} />
-                <PublicRoute
-                    exact
-                    path="/counselors"
-                    component={PageCounselors}
-                />
-                <PublicRoute exact path="/admin" component={PageAdmin} />
-                <Footer />
-                <LayerPopupContainer {...props} />
-            </Router>
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <Router history={history}>
+        <Header {...props} />
+        <PublicRoute exact path="/" component={PageHome} />
+        <PublicRoute exact path="/counselors" component={PageCounselors} />
+        <PublicRoute path="/counselors/:id" component={PageHome} />
+        <PublicRoute exact path="/admin" component={PageAdmin} />
+        <Footer />
+        <LayerPopupContainer {...props} />
+      </Router>
+    </Provider>
+  );
 };
 
 export default App;
