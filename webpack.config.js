@@ -7,10 +7,16 @@ const outputDirectory = "dist";
 
 module.exports = {
   entry: ["babel-polyfill", "./src/client/index.js"],
+  //   output: {
+  //     filename: "bundle.[hash].js",
+  //     // publicPath: "./",
+  //     publicPath: "/",
+  //     path: path.join(__dirname, outputDirectory),
+  //   },
   output: {
     path: path.join(__dirname, outputDirectory),
-    filename: "bundle.[hash].js",
-    // publicPath: "/",
+    filename: "[name].[hash].js",
+    publicPath: "./",
   },
   module: {
     rules: [
@@ -32,7 +38,8 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        loader: "file-loader?name=dist/src/client/images/[name].[ext]",
+        loader: "file-loader?name=/src/client/images/[name].[ext]",
+        // loader: "file-loader?name=dist/src/client/images/[name].[ext]",
       },
     ],
   },
