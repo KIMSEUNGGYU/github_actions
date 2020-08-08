@@ -4,7 +4,7 @@ const app = require("../app");
 describe("JUST 테스트", () => {
   it("AUTH API KEY PASS", (done) => {
     request(app)
-      .get("/api/v1/keyword")
+      .get("/api/v1/user/email/validate?email=dev.seunggyu@gmail.com")
       .set(
         "x-api-key",
         "dd29771d9da1133deb625006590bd83373df0355fb4f791bdebbe9f93537f78f"
@@ -15,14 +15,10 @@ describe("JUST 테스트", () => {
     request(app)
       .get("/api/v1/")
       .set("x-api-key", "api key fail")
-      //   .expect("Conetent-type", /json/)
       .expect(401)
       .end(function (err, res) {
         if (err) return done(err);
         done();
       });
-    //   .expect(401, done);
-    //   .expect("etest", done);
-    //   .expect("Hello github actions 10", done);
   });
 });
