@@ -16,7 +16,7 @@ router.use(`${BASEURL}/`, middleware.apiKeyAuth);
 
 // api
 router.get(`${BASEURL}/`, (req, res, next) =>
-  res.status(200).json({ message: "TEST INDEX", result: {} })
+  res.status(200).json({ message: " merged test server 1", result: {} })
 );
 router.use(`${BASEURL}/user`, user);
 router.use(`${BASEURL}/partner`, partner);
